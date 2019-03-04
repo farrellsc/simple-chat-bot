@@ -1,6 +1,12 @@
-import * as React from 'react'
+import React, { Component } from 'react'
+import MyCarousel from './MyCarousel'
 import Maximized from './Maximized'
 import Minimized from './Minimized'
+// import { Animate } from "react-simple-animate";
+// import posed from 'react-pose';
+import '../styles/App.css'
+import img1 from '../assets/header.png'
+import img2 from '../assets/footer.png'
 import { ThemeProvider, FixedWrapper, darkTheme, elegantTheme, purpleTheme, defaultTheme } from '@livechat/ui-kit'
 
 const themes = {
@@ -93,78 +99,98 @@ const themeElegantButton = {
     color: '#D9A646',  
 }
 
+const headerOnLeft = {
+    "textAlign": "left",
+    "float": "left"
+}
 
-class App extends React.Component {
-    state = {
-        theme: 'defaultTheme'
-    }
-    
+const items = [
+  {
+    src: 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa1d%20text%20%7B%20fill%3A%23555%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa1d%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22285.921875%22%20y%3D%22218.3%22%3EFirst%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E',
+    altText: 'Slide 1',
+    caption: 'Slide 1'
+  },
+  {
+    src: 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa20%20text%20%7B%20fill%3A%23444%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa20%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23666%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22247.3203125%22%20y%3D%22218.3%22%3ESecond%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E',
+    altText: 'Slide 2',
+    caption: 'Slide 2'
+  },
+  {
+    src: 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa21%20text%20%7B%20fill%3A%23333%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa21%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23555%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22277%22%20y%3D%22218.3%22%3EThird%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E',
+    altText: 'Slide 3',
+    caption: 'Slide 3'
+  }
+];
+
+
+class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            theme: 'defaultTheme'
+        };
+    };
+
     handleThemeChange = ({ target }) => {
-        console.log('target.name', target.name)
+        console.log('target.name', target.name);
         this.setState({
-            theme: target.name + 'Theme'    ,
+            theme: target.name + 'Theme',
         })
-    }
+    };
+
+    renderHeader = () => {
+        return (
+            <header>
+                <img src={img1} id="img1"/>
+            </header>
+        );
+    };
+
+    renderBody = () => {
+        return (
+            <div className="main-body" style={{clear:"both"}}>
+                <MyCarousel items={items}/>
+            </div>
+        );
+    };
+
+    renderChatBox = () => {
+        // const Box = posed.div();
+        return (
+            <div>
+                <img src={img2} id="img2"/>
+                <FixedWrapper.Root maximizedOnInit>
+                    <FixedWrapper.Maximized>
+                        <Maximized {...this.props} />
+                    </FixedWrapper.Maximized>
+                    <FixedWrapper.Minimized id='chat-icon' style={{margin:"5%"}}>
+                        <Minimized {...this.props} />
+                    </FixedWrapper.Minimized>
+                </FixedWrapper.Root>
+            </div>
+        );
+    };
 
     render() {
         return (
             <ThemeProvider theme={themes[this.state.theme]}>
-                <div style={{
-                }}>
-                    <header style={{
-                        backgroundColor: '#17212D',
-                        color: '#fff',
-                        padding: '1em',
-                    }}>
-                        <div style={{
-                            maxWidth: '990px',
-                            margin: '0 auto',
-                        }}>
-                            <h1 style={{
-                                fontSize: '3em',
-                                lineHeight: '1em',
-                                fontWeight: '600',
-                            }}>
-                                Chat widget
-                            </h1>
-                            <h2 style={{
-                                color: '#f6e273',
-                                fontWeight: '400',
-                            }}>LiveChat React UI Kit sample</h2>
-                        </div>
-                    </header>
-                    <div style={{
-                        maxWidth: '990px',
-                        margin: '3em auto',
-                    }}>
-                        <p>Sample chat widget built with <a href="https://docs.livechatinc.com/react-chat-ui-kit/" target="_blank">LiveChat React chat UI kit</a>. In this widget, <a href="https://www.botengine.ai/">BotEngine</a> handles the incoming chats. When the bot returns `LiveChat.transfer` action, the chat is transferred to a human agent together with the transcript of the initial conversation with the bot.</p>
-                        <p>The sample app uses <a href="https://docs.livechatinc.com/visitor-sdk/" target="_blank">Visitor SDK</a> to communicate with LiveChat and <a href="https://docs.botengine.ai/api/introduction">the API</a> to connect with BotEngine.</p>
-                        <p>Source code is avaible at <a href="https://github.com/livechat/chat-widget-sample" target="_blank">Github</a>.</p>
-                        <h3>Change components theme:</h3>
-                        <button id="theme-default" name="default" style={themeDefaultButton} onClick={this.handleThemeChange.bind(this)}>
-                            default
-                        </button>
-                        <button id="theme-purple" name="purple" style={themePurpleButton} onClick={this.handleThemeChange.bind(this)}>
-                            purple
-                        </button>
-                        <button id="theme-dark" name="dark" style={themeDarkButton} onClick={this.handleThemeChange.bind(this)}>
-                            dark
-                        </button>
-                        <button id="theme-elegant" name="elegant" style={themeElegantButton} onClick={this.handleThemeChange.bind(this)}>
-                            elegant
-                        </button>
-                    </div>
-                    <FixedWrapper.Root maximizedOnInit>
-                        <FixedWrapper.Maximized>
-                            <Maximized {...this.props} />
-                        </FixedWrapper.Maximized>
-                        <FixedWrapper.Minimized>
-                            <Minimized {...this.props} />
-                        </FixedWrapper.Minimized>
-                    </FixedWrapper.Root>
+                <div id='container'>
+                    {this.renderHeader()}
+                    {/*<Animate*/}
+                        {/*play={document.getElementById('chat-icon').style.visiblity == 'hidden'}*/}
+                        {/*startStyle={{width:"100%"}}*/}
+                        {/*endStyle={{width:"70%"}}*/}
+                    {/*>*/}
+                        {this.renderBody()}
+                        {this.renderChatBox()}
+                    {/*</Animate>*/}
                 </div>
 			</ThemeProvider>
         )
+    }
+
+    componentDidMount() {
+        this.setState({'h1height': document.getElementById('title-header')})
     }
 }
 

@@ -5,6 +5,8 @@ import { Provider } from 'react-redux'
 import configureStore from './store'
 import rootSaga from './sagas'
 import AppContainer from './containers/AppContainer'
+import 'bootstrap/dist/css/bootstrap.css';
+
 
 const { store, persistor } = configureStore()
 store.runSaga(rootSaga, store)
